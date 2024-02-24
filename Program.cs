@@ -14,14 +14,11 @@ namespace CanadaCities
             //Statistics stats = new Statistics("..\\..\\..\\Canadacities-JSON.json", "JSON");
             //Statistics stats = new Statistics("..\\..\\..\\Canadacities.csv", "CSV");
 
-            foreach (var city in stats.CityCatalogue)
-            {
-                foreach (var duplicate in city.Value)
-                {
-                    Console.WriteLine("Name: " + duplicate.CityName);
-                }
-            }
-
+            stats.DisplayCityInformation("Toronto");
+            //stats.DisplayCityInformation("Deer Lake");    //Duplication tester
+            stats.DisplayLargestCityPopulation("Ontario");
+            stats.DisplaySmallestCityPopulation("Ontario");
+            stats.CompareCitiesPopulation(stats.CityCatalogue["Deer Lake"][0], stats.CityCatalogue["Windsor"][0]);
         }
     }
 }
