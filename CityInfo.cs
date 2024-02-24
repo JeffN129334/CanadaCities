@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace CanadaCities
 {
-    public class CityInfo
+    public class CityInfo : IComparable<CityInfo>
     {
         [JsonPropertyName("id")]
         public string CityID { get; set; }
@@ -84,7 +84,7 @@ namespace CanadaCities
         /*
           * Method Name: Constructor [Overload]
           * Purpose: Populate the properties of a new CityInfo object
-          * Accepts: N/A
+          * Accepts: All of the properties for a new city
           * Returns:
           */
         public CityInfo(string cid, string cname, string cascii, string pop, string prov, string lat, string lon)
@@ -96,6 +96,37 @@ namespace CanadaCities
             Province = prov;
             Latitude = lat;
             Longitude = lon;
+        }
+
+        /*
+          * Method Name: PrintInfo
+          * Purpose: Print all of the city information in a nicely formatted manner
+          * Accepts: N/A
+          * Returns: Void
+          */
+        public void PrintInfo()
+        {
+            Console.WriteLine();
+            Console.WriteLine("{0,-18}{1}", "City Id:", CityID);
+            Console.WriteLine("{0,-18}{1}", "City Name:", CityName);
+            Console.WriteLine("{0,-18}{1}", "City ASCII:", CityASCII);
+            Console.WriteLine("{0,-18}{1}", "City Population:", Population);
+            Console.WriteLine("{0,-18}{1}", "City Province:", Province);
+            Console.WriteLine("{0,-18}{1}", "City Latitude:", Latitude);
+            Console.WriteLine("{0,-18}{1}", "City Longitude:", Longitude);
+            Console.WriteLine("\n");
+        }
+
+        /*
+          * Method Name: CompareTo
+          * Purpose: Comparison method for comparing and sorting cities based on Population
+          * Accepts: The City info object which will be compared to this one
+          * Returns: An integer representing the result of the comparison
+          */
+        public int CompareTo(CityInfo? other)
+        {
+            if (other is null) { return 1; }
+            return GetPopulation().CompareTo(other.GetPopulation());
         }
     }
 }
