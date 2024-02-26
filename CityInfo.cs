@@ -48,7 +48,11 @@ namespace CanadaCities
         [JsonPropertyName("capital")]
         public string Capital { get; set; }
 
-        public event EventHandler<CityPopulationChangeEvent> PopulationChanging;
+        // Define event handler delegate for population changing event
+        public delegate void PopulationChangingHandler(object sender, CityPopulationChangeEvent e);
+
+        // Define PopulationChanging event based on the delegate
+        public event PopulationChangingHandler PopulationChanging;
 
         protected virtual void OnPopulationChanging(CityPopulationChangeEvent e)
         {

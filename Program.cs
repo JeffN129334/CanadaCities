@@ -28,11 +28,23 @@
 
                 double distance = stats.CalculateDistanceBetweenCities("London", "Toronto");
                 Console.WriteLine($"Distance between London and Toronto: {Math.Round(distance, 2)}km");
+
+                CityInfo city = new CityInfo();
+                city.PopulationChanging += PopulationChangingEventHandler;
+                city.CityName = "London";
+                city.Population = "50000";
             }
             catch(Exception err)
             {
                 Console.WriteLine(err.Message);
             }
+        }
+
+        //Event handler method for the PopulationChanging event
+        static void PopulationChangingEventHandler(object sender, CityPopulationChangeEvent e)
+        {
+            //Your event handling logic goes here
+            Console.WriteLine($"Population of {e.CityName} is changing from {e.OldPopulation} to {e.NewPopulation}");
         }
     }
 }
