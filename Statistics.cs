@@ -1,4 +1,5 @@
 ﻿using CanadaCities.Comparers;
+using System.Diagnostics;
 
 namespace CanadaCities
 {
@@ -146,10 +147,24 @@ namespace CanadaCities
             Console.WriteLine("\n");
         }
 
-        //TODO: Implement Statistics.ShowCitiesOnMap
-        public void ShowCitiesOnMap(CityInfo cityToDisplay)
+        public void ShowCityOnMap(string cityName)
         {
-            throw new NotImplementedException();
+            CityInfo cityToDisplay = ChooseCity(cityName);
+            string url = $"https://www.latlong.net/c/?lat={cityToDisplay.Latitude}&long={cityToDisplay.Longitude}";
+
+            try
+            {
+                ProcessStartInfo info = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = url
+                };
+                Process.Start(info);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         //TODO: Implement Statistics.CalculateDistanceBetweenCities
@@ -315,7 +330,7 @@ namespace CanadaCities
           * Accepts: A list of identically named cities
           * Returns: The information object for the chosen city
           */
-        public CityInfo ChooseCity(string cityName)
+        private CityInfo ChooseCity(string cityName)
         {
             //If the city name is a valid city
             if (CityCatalogue.ContainsKey(cityName))

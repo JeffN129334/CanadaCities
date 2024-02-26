@@ -23,6 +23,8 @@
 
                 stats.RankProvincesByPopulation();
                 stats.RankProvincesByCities();
+
+                stats.ShowCityOnMap("London");
             }
             catch(Exception err)
             {
