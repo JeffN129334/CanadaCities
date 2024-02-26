@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace CanadaCities
 {
@@ -33,6 +27,42 @@ namespace CanadaCities
 
         [JsonPropertyName("capital")]
         public string Capital { get; set; }
+
+        /*
+          * Method Name: Constructor
+          * Purpose: Used for JSON serialization
+          * Accepts: N/A
+          * Returns:
+          */
+        public CityInfo()
+        {
+            CityID = "";
+            CityName = "";
+            CityASCII = "";
+            Population = "";
+            Province = "";
+            Latitude = "";
+            Longitude = "";
+            Capital = "";
+        }
+
+        /*
+          * Method Name: Constructor [Overload]
+          * Purpose: Populate the properties of a new CityInfo object
+          * Accepts: All of the properties for a new city
+          * Returns:
+          */
+        public CityInfo(string cid, string cname, string cascii, string pop, string prov, string lat, string lon, string cap)
+        {
+            CityID = cid;
+            CityName = cname;
+            CityASCII = cascii;
+            Population = pop;
+            Province = prov;
+            Latitude = lat;
+            Longitude = lon;
+            Capital = cap;
+        }
 
         /*
           * Method Name: GetLocation
@@ -76,42 +106,6 @@ namespace CanadaCities
         public bool IsCapital()
         {
             return Capital != "";
-        }
-
-        /*
-          * Method Name: Constructor
-          * Purpose: Used for JSON serialization
-          * Accepts: N/A
-          * Returns:
-          */
-        public CityInfo()
-        {
-            CityID = "";
-            CityName = "";
-            CityASCII = "";
-            Population = "";
-            Province = "";
-            Latitude = "";
-            Longitude = "";
-            Capital = "";
-        }
-
-        /*
-          * Method Name: Constructor [Overload]
-          * Purpose: Populate the properties of a new CityInfo object
-          * Accepts: All of the properties for a new city
-          * Returns:
-          */
-        public CityInfo(string cid, string cname, string cascii, string pop, string prov, string lat, string lon, string cap)
-        {
-            CityID = cid;
-            CityName = cname;
-            CityASCII = cascii;
-            Population = pop;
-            Province = prov;
-            Latitude = lat;
-            Longitude = lon;
-            Capital = cap;
         }
 
         /*

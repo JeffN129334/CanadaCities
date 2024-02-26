@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using System.Xml.Linq;
 
 namespace CanadaCities
@@ -11,8 +6,8 @@ namespace CanadaCities
     /**
      * Class Name:		DataModeler
      * Purpose:			To parse an input file into a dictionary containing City Information
-     * Coder:			    Gui Miranda and Jeff Nesbitt
-     * Date:			    2024-02-21
+     * Coder:			Gui Miranda and Jeff Nesbitt
+     * Date:			2024-02-21
      */
     public static class DataModeler
     {
@@ -290,7 +285,5 @@ namespace CanadaCities
             }
             return ProvinceCatalogue;
         }
-
-
     }
 }
