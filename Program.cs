@@ -7,9 +7,9 @@
             //TODO: Make a proper UI
             try
             {
-                Statistics stats = new Statistics("..\\..\\..\\Canadacities-XML.xml", "XML");
-                //Statistics stats = new Statistics("..\\..\\..\\Canadacities-JSON.json", "JSON");
-                //Statistics stats = new Statistics("..\\..\\..\\Canadacities.csv", "CSV");
+                Statistics stats = new Statistics("..\\..\\..\\Data\\Canadacities-XML.xml", "XML");
+                //Statistics stats = new Statistics("..\\..\\..\\Data\\Canadacities-JSON.json", "JSON");
+                //Statistics stats = new Statistics("..\\..\\..\\Data\\Canadacities.csv", "CSV");
 
                 //stats.DisplayCityInformation("Toronto");
                 //stats.DisplayCityInformation("Deer Lake");    //Duplication tester
