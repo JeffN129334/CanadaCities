@@ -24,7 +24,10 @@
                 stats.RankProvincesByPopulation();
                 stats.RankProvincesByCities();
 
-                stats.ShowCityOnMap("London");
+                //stats.ShowCityOnMap("London");
+
+                double distance = stats.CalculateDistanceBetweenCities("London", "Toronto");
+                Console.WriteLine($"Distance between London and Toronto: {Math.Round(distance, 2)}km");
             }
             catch(Exception err)
             {

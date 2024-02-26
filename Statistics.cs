@@ -147,6 +147,12 @@ namespace CanadaCities
             Console.WriteLine("\n");
         }
 
+        /*
+          * Method Name: ShowCityOnMap
+          * Purpose: Opens a web browser to display a map showing the specified city using its latitude and longitude coordinates
+          * Accepts: The name of the city to display on the map
+          * Returns: Void
+          */
         public void ShowCityOnMap(string cityName)
         {
             CityInfo cityToDisplay = ChooseCity(cityName);
@@ -167,10 +173,50 @@ namespace CanadaCities
             }
         }
 
-        //TODO: Implement Statistics.CalculateDistanceBetweenCities
-        public void CalculateDistanceBetweenCities(CityInfo cityOne, CityInfo cityTwo)
+        /*
+          * Method Name: CalculateDistanceBetweenCities
+          * Purpose: Calculate the distance (in kilometers) between two cities using their latitude and longitude
+          * Accepts: Two string variables representing the cities' names
+          * Returns: The distance between the cities in kilometers
+          */
+        public double CalculateDistanceBetweenCities(string cityNameOne, string cityNameTwo)
         {
-            throw new NotImplementedException();
+            CityInfo cityOne = ChooseCity(cityNameOne);
+            CityInfo cityTwo = ChooseCity(cityNameTwo);
+
+            //Radius of the Earth in kilometers
+            const double EarthRadiusKm = 6371;
+
+            //Convert latitude and longitude from degrees to radians
+            double lat1 = ToRadians(double.Parse(cityOne.Latitude));
+            double lon1 = ToRadians(double.Parse(cityOne.Longitude));
+            double lat2 = ToRadians(double.Parse(cityTwo.Latitude));
+            double lon2 = ToRadians(double.Parse(cityTwo.Longitude));
+
+            //Calculate differences in latitude and longitude
+            double dLat = lat2 - lat1;
+            double dLon = lon2 - lon1;
+
+            //Apply Haversine formula
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                       Math.Cos(lat1) * Math.Cos(lat2) *
+                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            //Calculate distance
+            double distance = EarthRadiusKm * c;
+            return distance;
+        }
+
+        /*
+          * Method Name: ToRadians
+          * Purpose: Convert degrees to radians
+          * Accepts: Angle in degrees
+          * Returns: Angle in radians
+          */
+        private double ToRadians(double angle)
+        {
+            return Math.PI * angle / 180.0;
         }
 
         /*
