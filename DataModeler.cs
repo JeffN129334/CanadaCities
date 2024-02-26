@@ -31,57 +31,51 @@ namespace CanadaCities
           */
         private static void ParseXML(string fileName)
         {
-            try
+            //Create new XDocument and load the file
+            XDocument doc = XDocument.Load(fileName);
+
+            //Use Select to transform the Elements of the XMLDocument to a list of CityInfo objects
+            List<CityInfo> cityList = doc.Root!.Elements("CanadaCity").Select(cityElement => new CityInfo(
+                cityElement.Element("id")!.Value,
+                cityElement.Element("city")!.Value,
+                cityElement.Element("city_ascii")!.Value,
+                cityElement.Element("population")!.Value,
+                cityElement.Element("admin_name")!.Value,
+                cityElement.Element("lat")!.Value,
+                cityElement.Element("lng")!.Value,
+                cityElement.Element("capital")!.Value
+                )
+            ).ToList();
+
+            //If the list is empty throw an exception
+            if (cityList.Count <= 0)
             {
-                //Create new XDocument and load the file
-                XDocument doc = XDocument.Load(fileName);
-
-                //Use Select to transform the Elements of the XMLDocument to a list of CityInfo objects
-                List<CityInfo> cityList = doc.Root!.Elements("CanadaCity").Select(cityElement => new CityInfo(
-                    cityElement.Element("id")!.Value,
-                    cityElement.Element("city")!.Value,
-                    cityElement.Element("city_ascii")!.Value,
-                    cityElement.Element("population")!.Value,
-                    cityElement.Element("admin_name")!.Value,
-                    cityElement.Element("lat")!.Value,
-                    cityElement.Element("lng")!.Value
-                    )
-                ).ToList();
-
-                //If the list is empty throw an exception
-                if (cityList.Count <= 0)
-                {
-                    throw new Exception("No data found");
-                }
-
-                //Clear out any data from the CityCatalogue dictionary
-                CityCatalogue.Clear();
-
-                //For each city in the list...
-                foreach (CityInfo city in cityList)
-                {
-                    //If there is no data, skip the entry
-                    if (city.CityName == "")
-                    {
-                        continue;
-                    }
-                    //If there is already a city in the dictionary with the name of the current entry
-                    if (CityCatalogue.ContainsKey(city.CityName))
-                    {
-                        //Insert the current entry into the list of CityInfo objects matching the key
-                        CityCatalogue[city.CityName].Add(city);
-                    }
-                    else
-                    {
-                        //Create a new dictionary entry for the key and add the city info
-                        List<CityInfo> tempList = new List<CityInfo> { city };
-                        CityCatalogue.Add(city.CityName, tempList);
-                    }
-                }
+                throw new Exception("No data found");
             }
-            catch (Exception err)
+
+            //Clear out any data from the CityCatalogue dictionary
+            CityCatalogue.Clear();
+
+            //For each city in the list...
+            foreach (CityInfo city in cityList)
             {
-                Console.WriteLine(err.Message);
+                //If there is no data, skip the entry
+                if (city.CityName == "")
+                {
+                    continue;
+                }
+                //If there is already a city in the dictionary with the name of the current entry
+                if (CityCatalogue.ContainsKey(city.CityName))
+                {
+                    //Insert the current entry into the list of CityInfo objects matching the key
+                    CityCatalogue[city.CityName].Add(city);
+                }
+                else
+                {
+                    //Create a new dictionary entry for the key and add the city info
+                    List<CityInfo> tempList = new List<CityInfo> { city };
+                    CityCatalogue.Add(city.CityName, tempList);
+                }
             }
         }
 
@@ -93,49 +87,42 @@ namespace CanadaCities
           */
         private static void ParseJSON(string fileName)
         {
-            try
+            //Read all the text from the file
+            string jsonContent = File.ReadAllText(fileName);
+
+            //Deserialize the text into a list of CityInfo objects
+            List<CityInfo> cityList = JsonSerializer.Deserialize<List<CityInfo>>(jsonContent)!;
+
+            //If the list is empty throw an exception
+            if (cityList.Count <= 0)
             {
-                //Read all the text from the file
-                string jsonContent = File.ReadAllText(fileName);
-
-                //Deserialize the text into a list of CityInfo objects
-                List<CityInfo> cityList = JsonSerializer.Deserialize<List<CityInfo>>(jsonContent)!;
-
-                //If the list is empty throw an exception
-                if (cityList.Count <= 0)
-                {
-                    throw new Exception("No data found");
-                }
-
-                //Clear out any data from the CityCatalogue dictionary
-                CityCatalogue.Clear();
-
-                //For each city in the list...
-                foreach (CityInfo city in cityList)
-                {
-                    //If there is no data, skip the entry
-                    if (city.CityName == "")
-                    {
-                        continue;
-                    }
-
-                    //If there is already a city in the dictionary with the name of the current entry
-                    if (CityCatalogue.ContainsKey(city.CityName))
-                    {
-                        //Insert the current entry into the list of CityInfo objects matching the key
-                        CityCatalogue[city.CityName].Add(city);
-                    }
-                    else
-                    {
-                        //Create a new dictionary entry for the key and add the city info
-                        List<CityInfo> tempList = new List<CityInfo> { city };
-                        CityCatalogue.Add(city.CityName, tempList);
-                    }
-                }
+                throw new Exception("No data found");
             }
-            catch (Exception err)
+
+            //Clear out any data from the CityCatalogue dictionary
+            CityCatalogue.Clear();
+
+            //For each city in the list...
+            foreach (CityInfo city in cityList)
             {
-                Console.WriteLine(err.Message);
+                //If there is no data, skip the entry
+                if (city.CityName == "")
+                {
+                    continue;
+                }
+
+                //If there is already a city in the dictionary with the name of the current entry
+                if (CityCatalogue.ContainsKey(city.CityName))
+                {
+                    //Insert the current entry into the list of CityInfo objects matching the key
+                    CityCatalogue[city.CityName].Add(city);
+                }
+                else
+                {
+                    //Create a new dictionary entry for the key and add the city info
+                    List<CityInfo> tempList = new List<CityInfo> { city };
+                    CityCatalogue.Add(city.CityName, tempList);
+                }
             }
         }
 
@@ -147,70 +134,64 @@ namespace CanadaCities
           */
         private static void ParseCSV(string fileName)
         {
-            try
+            List<CityInfo> cityList = new List<CityInfo>();
+
+            //Read all the text from the file
+            string csvContent = File.ReadAllText(fileName);
+
+            //Split the text into rows
+            string[] rows = csvContent.Split('\n');
+            string[] fields;
+
+            //For each row (minus the first one which contains the headers)
+            for (int i = 1; i < rows.Length - 1; i++)
             {
-                List<CityInfo> cityList = new List<CityInfo>();
-
-                //Read all the text from the file
-                string csvContent = File.ReadAllText(fileName);
-
-                //Split the text into rows
-                string[] rows = csvContent.Split('\n');
-                string[] fields;
-
-                //For each row (minus the first one which contains the headers)
-                for(int i = 1; i < rows.Length - 1; i++)
-                {
-                    //Split the rows into fields
-                    fields = rows[i].Split(',');
-                    //Create a new CityInfo object
-                    cityList.Add(new CityInfo
-                    (
-                        fields[8],  //Id
-                        fields[0],  //City Name
-                        fields[1],  //City ASCII
-                        fields[7],  //Population
-                        fields[5],  //Province
-                        fields[2],  //Latitude
-                        fields[3]   //Longitude
-                    ));
-                }
-
-                //If the list is empty throw an exception
-                if (cityList.Count <= 0)
-                {
-                    throw new Exception("No data found");
-                }
-
-                //Clear out any data from the CityCatalogue dictionary
-                CityCatalogue.Clear();
-
-                //For each city in the list...
-                foreach (CityInfo city in cityList)
-                {
-                    //If there is no data, skip the entry
-                    if (city.CityName == "")
-                    {
-                        continue;
-                    }
-
-                    //If there is already a city in the dictionary with the name of the current entry
-                    if (CityCatalogue.ContainsKey(city.CityName))
-                    {
-                        //Insert the current entry into the list of CityInfo objects matching the key
-                        CityCatalogue[city.CityName].Add(city);
-                    }
-                    else
-                    {
-                        //Create a new dictionary entry for the key and add the city info
-                        List<CityInfo> tempList = new List<CityInfo> { city };
-                        CityCatalogue.Add(city.CityName, tempList);
-                    }
-                }
+                //Split the rows into fields
+                fields = rows[i].Split(',');
+                //Create a new CityInfo object
+                cityList.Add(new CityInfo
+                (
+                    fields[8],  //Id
+                    fields[0],  //City Name
+                    fields[1],  //City ASCII
+                    fields[7],  //Population
+                    fields[5],  //Province
+                    fields[2],  //Latitude
+                    fields[3],  //Longitude
+                    fields[6]   //Capital
+                ));
             }
-            catch (Exception err)
+
+            //If the list is empty throw an exception
+            if (cityList.Count <= 0)
             {
-                Console.WriteLine(err.Message);
+                throw new Exception("No data found");
+            }
+
+            //Clear out any data from the CityCatalogue dictionary
+            CityCatalogue.Clear();
+
+            //For each city in the list...
+            foreach (CityInfo city in cityList)
+            {
+                //If there is no data, skip the entry
+                if (city.CityName == "")
+                {
+                    continue;
+                }
+
+                //If there is already a city in the dictionary with the name of the current entry
+                if (CityCatalogue.ContainsKey(city.CityName))
+                {
+                    //Insert the current entry into the list of CityInfo objects matching the key
+                    CityCatalogue[city.CityName].Add(city);
+                }
+                else
+                {
+                    //Create a new dictionary entry for the key and add the city info
+                    List<CityInfo> tempList = new List<CityInfo> { city };
+                    CityCatalogue.Add(city.CityName, tempList);
+                }
             }
         }
 
@@ -248,11 +229,68 @@ namespace CanadaCities
                     {
                         throw new Exception("Invalid File Format!");
                     }
-            } 
+            }
 
             //Invoke the delegate
             parser.Invoke(fileName);
             return CityCatalogue;
         }
+
+        /*
+        * Method Name: ParseProvinces
+        * Purpose: Use the CityCatalogue contained in this object to create a dictionary containing useful information about each of the provinces
+        * Accepts: N/A
+        * Returns: A new dictionary object which is populated with ProvinceInfo objects
+        */
+        public static Dictionary<string, ProvinceInfo> ParseProvinces()
+        {
+            Dictionary<string, ProvinceInfo> ProvinceCatalogue = new Dictionary<string, ProvinceInfo>();
+
+            //If the city catalogue hasn't been parsed yet, throw an exception
+            if (CityCatalogue.Count <= 0)
+            {
+                throw new Exception("No data available to parse!");
+            }
+
+            //For each city in the city catalogue...
+            foreach (var item in CityCatalogue)
+            {
+                //Including duplicates...
+                foreach (var city in item.Value)
+                {
+                    //If the province catalogue already contains the province that the city belongs to...
+                    if (ProvinceCatalogue.ContainsKey(city.Province))
+                    {
+                        //Add the city's population to the total population and increment the city count
+                        ProvinceCatalogue[city.Province].TotalPopulation += city.GetPopulation();
+                        ProvinceCatalogue[city.Province].CityCount++;
+
+                        //If the city is the capital city of its province, then add its information to the associated province object
+                        if (city.IsCapital())
+                        {
+                            ProvinceCatalogue[city.Province].CapitalCity = city;
+                        }
+                    }
+                    //If the province catalogue doesn't yet contain the province...
+                    else
+                    {
+                        //Create a new province object with this city's information as starting values, and an empty city info object representing the capital
+                        ProvinceInfo temp = new ProvinceInfo(city.Province, city.GetPopulation(), 1, new CityInfo());
+
+                        //If the city is the capital city of its province, then add its information to the new province object
+                        if (city.IsCapital())
+                        {
+                            temp.CapitalCity = city;
+                        }
+
+                        //Add the new province to the dictionary
+                        ProvinceCatalogue.Add(city.Province, temp);
+                    }
+                }
+            }
+            return ProvinceCatalogue;
+        }
+
+
     }
 }

@@ -31,6 +31,9 @@ namespace CanadaCities
         [JsonPropertyName("lng")]
         public string Longitude { get; set; }
 
+        [JsonPropertyName("capital")]
+        public string Capital { get; set; }
+
         /*
           * Method Name: GetLocation
           * Purpose: Parse the Latitude and Longitude properties to doubles and return them as a tuple
@@ -65,6 +68,17 @@ namespace CanadaCities
         }
 
         /*
+          * Method Name: IsCapital
+          * Purpose: Return a bool reflecting whether or not the city is a capital city
+          * Accepts: N/A
+          * Returns: A boolean
+          */
+        public bool IsCapital()
+        {
+            return Capital != "";
+        }
+
+        /*
           * Method Name: Constructor
           * Purpose: Used for JSON serialization
           * Accepts: N/A
@@ -79,6 +93,7 @@ namespace CanadaCities
             Province = "";
             Latitude = "";
             Longitude = "";
+            Capital = "";
         }
 
         /*
@@ -87,7 +102,7 @@ namespace CanadaCities
           * Accepts: All of the properties for a new city
           * Returns:
           */
-        public CityInfo(string cid, string cname, string cascii, string pop, string prov, string lat, string lon)
+        public CityInfo(string cid, string cname, string cascii, string pop, string prov, string lat, string lon, string cap)
         {
             CityID = cid;
             CityName = cname;
@@ -96,6 +111,7 @@ namespace CanadaCities
             Province = prov;
             Latitude = lat;
             Longitude = lon;
+            Capital = cap;
         }
 
         /*
@@ -106,7 +122,6 @@ namespace CanadaCities
           */
         public void PrintInfo()
         {
-            Console.WriteLine();
             Console.WriteLine("{0,-18}{1}", "City Id:", CityID);
             Console.WriteLine("{0,-18}{1}", "City Name:", CityName);
             Console.WriteLine("{0,-18}{1}", "City ASCII:", CityASCII);
@@ -114,7 +129,6 @@ namespace CanadaCities
             Console.WriteLine("{0,-18}{1}", "City Province:", Province);
             Console.WriteLine("{0,-18}{1}", "City Latitude:", Latitude);
             Console.WriteLine("{0,-18}{1}", "City Longitude:", Longitude);
-            Console.WriteLine("\n");
         }
 
         /*
