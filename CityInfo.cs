@@ -4,6 +4,8 @@ namespace CanadaCities
 {
     public class CityInfo : IComparable<CityInfo>
     {
+        private string population;
+
         [JsonPropertyName("id")]
         public string CityID { get; set; }
 
@@ -14,7 +16,25 @@ namespace CanadaCities
         public string CityASCII { get; set; }
 
         [JsonPropertyName("population")]
-        public string Population { get; set; }
+        public string Population
+        {
+            get => population;
+            set
+            {
+                if (population != value)
+                {
+                    //Get old and new population
+                    int oldPopulation = !string.IsNullOrEmpty(population) ? int.Parse(population) : 0;
+                    int newPopulation = !string.IsNullOrEmpty(value) ? int.Parse(value) : 0;
+
+                    //Raise PopulationChanging event
+                    OnPopulationChanging(new CityPopulationChangeEvent(CityName, oldPopulation, newPopulation));
+
+                    //Set new population value
+                    population = value!;
+                }
+            }
+        }
 
         [JsonPropertyName("admin_name")]
         public string Province { get; set; }
@@ -27,6 +47,13 @@ namespace CanadaCities
 
         [JsonPropertyName("capital")]
         public string Capital { get; set; }
+
+        public event EventHandler<CityPopulationChangeEvent> PopulationChanging;
+
+        protected virtual void OnPopulationChanging(CityPopulationChangeEvent e)
+        {
+            PopulationChanging?.Invoke(this, e);
+        }
 
         /*
           * Method Name: Constructor
