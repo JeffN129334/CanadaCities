@@ -3,12 +3,12 @@ using System.Xml.Linq;
 
 namespace CanadaCities
 {
-    /**
-     * Class Name:		DataModeler
-     * Purpose:			To parse an input file into a dictionary containing City Information
-     * Coder:			Gui Miranda and Jeff Nesbitt
-     * Date:			2024-02-21
-     */
+    /*
+      * Class Name:		DataModeler
+      * Purpose:		To parse an input file into a dictionary containing City Information
+      * Coder:			Gui Miranda and Jeff Nesbitt
+      * Date:			2024-02-21
+      */
     public static class DataModeler
     {
         //Declare customized delegate matching the signature of the parse methods

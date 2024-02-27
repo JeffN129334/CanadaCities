@@ -1,5 +1,11 @@
 ﻿namespace CanadaCities
 {
+    /*
+      * Class Name:        ProvinceInfo
+      * Purpose:           Represents information about a province, including its name, total population, number of cities, and capital city
+      * Coder:             Jeff Nesbitt and Gui Miranda
+      * Date:              2024-02-26
+      */
     public class ProvinceInfo
     {
         public string ProvinceName { get; set; }

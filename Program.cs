@@ -1,5 +1,11 @@
 ﻿namespace CanadaCities
 {
+    /*
+      * Class Name:        Program
+      * Purpose:           Entry point of the application, contains the main method to execute the program
+      * Coder:             Jeff Nesbitt and Gui Miranda
+      * Date:              2024-02-26
+      */
     public class Program
     {
         public static void Main()

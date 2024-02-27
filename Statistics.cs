@@ -3,6 +3,13 @@ using System.Diagnostics;
 
 namespace CanadaCities
 {
+    /*
+      * Class Name:        Statistics
+      * Purpose:           Contains methods to perform various statistical operations on city and province data
+      *                    Also responsible for managing city and province catalogues
+      * Coder:             Jeff Nesbitt and Gui Miranda
+      * Date:              2024-02-26
+      */
     public class Statistics
     {
         public Dictionary<string, List<CityInfo>> CityCatalogue { get; set; }
@@ -12,7 +19,6 @@ namespace CanadaCities
           * Method Name: Constructor
           * Purpose: Calls upon the DataModeler to populate the local dictionaries with information from the file
           * Accepts: The name and type of the file
-          * Returns:
           */
         public Statistics(string fileName, string fileType)
         {

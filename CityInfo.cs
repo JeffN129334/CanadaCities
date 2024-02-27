@@ -2,6 +2,12 @@
 
 namespace CanadaCities
 {
+    /*
+      * Class Name:        CityInfo
+      * Purpose:           Represents information about a city, including population, location, and other details
+      * Coder:             Jeff Nesbitt and Gui Miranda
+      * Date:              2024-02-26
+      */
     public class CityInfo : IComparable<CityInfo>
     {
         private string population;
@@ -54,6 +60,15 @@ namespace CanadaCities
         // Define PopulationChanging event based on the delegate
         public event PopulationChangingHandler PopulationChanging;
 
+        /*
+          * Method Name:        OnPopulationChanging
+          * Purpose:            Raises the PopulationChanging event by invoking its delegates
+          *                     If there are subscribers to the event, it notifies them about the population change
+          * Accepts:            The CityPopulationChangeEvent object containing information about the population change
+          * Returns:            Void
+          * Parameters:
+          *      e (CityPopulationChangeEvent): The event arguments containing details about the population change
+          */
         protected virtual void OnPopulationChanging(CityPopulationChangeEvent e)
         {
             PopulationChanging?.Invoke(this, e);
