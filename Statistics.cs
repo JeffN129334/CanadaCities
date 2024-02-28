@@ -1,14 +1,15 @@
 ﻿using CanadaCities.Comparers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace CanadaCities
 {
+    /*
+      * Class Name:        Statistics
+      * Purpose:           Contains methods to perform various statistical operations on city and province data
+      *                    Also responsible for managing city and province catalogues
+      * Coder:             Jeff Nesbitt and Gui Miranda
+      * Date:              2024-02-26
+      */
     public class Statistics
     {
         public Dictionary<string, List<CityInfo>> CityCatalogue { get; set; }
@@ -18,7 +19,6 @@ namespace CanadaCities
           * Method Name: Constructor
           * Purpose: Calls upon the DataModeler to populate the local dictionaries with information from the file
           * Accepts: The name and type of the file
-          * Returns:
           */
         public Statistics(string fileName, string fileType)
         {
@@ -153,16 +153,76 @@ namespace CanadaCities
             Console.WriteLine("\n");
         }
 
-        //TODO: Implement Statistics.ShowCitiesOnMap
-        public void ShowCitiesOnMap(CityInfo cityToDisplay)
+        /*
+          * Method Name: ShowCityOnMap
+          * Purpose: Opens a web browser to display a map showing the specified city using its latitude and longitude coordinates
+          * Accepts: The name of the city to display on the map
+          * Returns: Void
+          */
+        public void ShowCityOnMap(string cityName)
         {
-            throw new NotImplementedException();
+            CityInfo cityToDisplay = ChooseCity(cityName);
+            string url = $"https://www.latlong.net/c/?lat={cityToDisplay.Latitude}&long={cityToDisplay.Longitude}";
+
+            try
+            {
+                ProcessStartInfo info = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = url
+                };
+                Process.Start(info);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
-        //TODO: Implement Statistics.CalculateDistanceBetweenCities
-        public void CalculateDistanceBetweenCities(CityInfo cityOne, CityInfo cityTwo)
+        /*
+          * Method Name: CalculateDistanceBetweenCities
+          * Purpose: Calculate the distance (in kilometers) between two cities using their latitude and longitude
+          * Accepts: Two string variables representing the cities' names
+          * Returns: The distance between the cities in kilometers
+          */
+        public double CalculateDistanceBetweenCities(string cityNameOne, string cityNameTwo)
         {
-            throw new NotImplementedException();
+            CityInfo cityOne = ChooseCity(cityNameOne);
+            CityInfo cityTwo = ChooseCity(cityNameTwo);
+
+            //Radius of the Earth in kilometers
+            const double EarthRadiusKm = 6371;
+
+            //Convert latitude and longitude from degrees to radians
+            double lat1 = ToRadians(double.Parse(cityOne.Latitude));
+            double lon1 = ToRadians(double.Parse(cityOne.Longitude));
+            double lat2 = ToRadians(double.Parse(cityTwo.Latitude));
+            double lon2 = ToRadians(double.Parse(cityTwo.Longitude));
+
+            //Calculate differences in latitude and longitude
+            double dLat = lat2 - lat1;
+            double dLon = lon2 - lon1;
+
+            //Apply Haversine formula
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                       Math.Cos(lat1) * Math.Cos(lat2) *
+                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            //Calculate distance
+            double distance = EarthRadiusKm * c;
+            return distance;
+        }
+
+        /*
+          * Method Name: ToRadians
+          * Purpose: Convert degrees to radians
+          * Accepts: Angle in degrees
+          * Returns: Angle in radians
+          */
+        private double ToRadians(double angle)
+        {
+            return Math.PI * angle / 180.0;
         }
 
         /*
@@ -322,7 +382,7 @@ namespace CanadaCities
           * Accepts: A list of identically named cities
           * Returns: The information object for the chosen city
           */
-        public CityInfo ChooseCity(string cityName)
+        private CityInfo ChooseCity(string cityName)
         {
             //If the city name is a valid city
             if (CityCatalogue.ContainsKey(cityName))
