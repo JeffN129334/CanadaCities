@@ -34,7 +34,7 @@ namespace CanadaCities
           */
         public void DisplayCityInformation(string cityName)
         {
-            Console.WriteLine($"Displaying information for the city of {cityName}...");
+            Console.WriteLine($"\nDisplaying information for the city of {cityName}...");
             ChooseCity(cityName).PrintInfo();
             Console.WriteLine("\n");
         }
@@ -48,7 +48,7 @@ namespace CanadaCities
           */
         public void DisplayLargestCityPopulation(string province)
         {
-            Console.WriteLine($"Displaying information for the city with the largest population in {province}...");
+            Console.WriteLine($"\nDisplaying information for the city with the largest population in {province}...");
             //Sorted set which automatically sorts CityInfo objects using the IComparable interface
             SortedSet<CityInfo> citiesByPopulation = new();
 
@@ -88,7 +88,7 @@ namespace CanadaCities
           */
         public void DisplaySmallestCityPopulation(string province)
         {
-            Console.WriteLine($"Displaying information for the city with the smallest population in {province}...");
+            Console.WriteLine($"\nDisplaying information for the city with the smallest population in {province}...");
             //Sorted set which automatically sorts CityInfo objects using the IComparable interface
             SortedSet<CityInfo> citiesByPopulation = new();
 
@@ -128,7 +128,7 @@ namespace CanadaCities
           */
         public void CompareCitiesPopulation(string nameOne, string nameTwo)
         {
-            Console.WriteLine($"Comparing populations for {nameOne} and {nameTwo}...");
+            Console.WriteLine($"\nComparing populations for {nameOne} and {nameTwo}...");
             CityInfo cityOne = ChooseCity(nameOne);
             CityInfo cityTwo = ChooseCity(nameTwo);
             //Print populations
@@ -233,7 +233,7 @@ namespace CanadaCities
           */
         public void DisplayProvincePopulation(string province)
         {
-            Console.WriteLine($"Displaying total population of the province of {province}...");
+            Console.WriteLine($"\nDisplaying total population of the province of {province}...");
             //If the province name is valid
             if (ProvinceCatalogue.ContainsKey(province))
             {
@@ -243,7 +243,7 @@ namespace CanadaCities
             {
                 Console.WriteLine($"Province {province} not found!");
             }
-            Console.WriteLine("\n");
+            Console.WriteLine();
         }
 
         /*
@@ -254,7 +254,7 @@ namespace CanadaCities
           */
         public void DisplayProvinceCities(string province)
         {
-            Console.WriteLine($"Displaying city list for the province of {province}...");
+            Console.WriteLine($"\nDisplaying city list for the province of {province}...");
 
             ushort i = 0;
 
@@ -277,7 +277,7 @@ namespace CanadaCities
             {
                 Console.WriteLine($"No cities found within province {province}!");
             }
-            Console.WriteLine("\n");
+            Console.WriteLine();
         }
 
         /*
@@ -289,7 +289,7 @@ namespace CanadaCities
           */
         public void RankProvincesByPopulation()
         {
-            Console.WriteLine($"Ranking provinces by population...");
+            Console.WriteLine($"\nRanking provinces by population...");
             //Sorted set which automatically sorts ProvinceInfo objects using the SortProvincesByPopulation class, which inherits the IComparer interface
             SortedSet<ProvinceInfo> provincesByPopulation = new SortedSet<ProvinceInfo>(new SortProvincesByPopulation());
 
@@ -314,7 +314,7 @@ namespace CanadaCities
                     Console.WriteLine("{0,-3} {1,-25} Population: {2}", (i++)+":", province.ProvinceName, province.TotalPopulation);
                 }
             }
-            Console.WriteLine("\n");
+            Console.WriteLine();
         }
 
         /*
@@ -326,7 +326,7 @@ namespace CanadaCities
           */
         public void RankProvincesByCities()
         {
-            Console.WriteLine($"Ranking provinces by city count...");
+            Console.WriteLine($"\nRanking provinces by city count...");
             //Sorted set which automatically sorts ProvinceInfo objects using the SortProvincesByCityCount class, which inherits the IComparer interface
             SortedSet<ProvinceInfo> provincesByCityCount = new SortedSet<ProvinceInfo>(new SortProvincesByCityCount());
 
@@ -351,7 +351,7 @@ namespace CanadaCities
                     Console.WriteLine("{0,-3} {1,-25} City Count: {2}", (i++) + ":", province.ProvinceName, province.CityCount);
                 }
             }
-            Console.WriteLine("\n");
+            Console.WriteLine();
         }
 
         /*
@@ -362,7 +362,7 @@ namespace CanadaCities
           */
         public void GetCapital(string province)
         {
-            Console.WriteLine($"Displaying capital city information for the province of {province}...");
+            Console.WriteLine($"\nDisplaying capital city information for the province of {province}...");
             //If the province name is valid...
             if (ProvinceCatalogue.ContainsKey(province))
             {
@@ -373,7 +373,7 @@ namespace CanadaCities
             {
                 Console.WriteLine($"No province found with the name {province}");
             }
-            Console.WriteLine("\n");
+            Console.WriteLine();
         }
 
         /*
