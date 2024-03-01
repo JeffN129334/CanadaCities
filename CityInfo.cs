@@ -165,7 +165,7 @@ namespace CanadaCities
             Console.WriteLine("{0,-18}{1}", "City Id:", CityID);
             Console.WriteLine("{0,-18}{1}", "City Name:", CityName);
             Console.WriteLine("{0,-18}{1}", "City ASCII:", CityASCII);
-            Console.WriteLine("{0,-18}{1}", "City Population:", Population);
+            Console.WriteLine("{0,-18}{1:N0}", "City Population:", Convert.ToInt64(Population));
             Console.WriteLine("{0,-18}{1}", "City Province:", Province);
             Console.WriteLine("{0,-18}{1}", "City Latitude:", Latitude);
             Console.WriteLine("{0,-18}{1}", "City Longitude:", Longitude);
