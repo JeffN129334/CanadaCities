@@ -8,12 +8,14 @@
       */
     public class CityPopulationChangeEvent : EventArgs
     {
+        public string FileName { get; }
         public string CityName { get; }
         public int OldPopulation { get; }
         public int NewPopulation { get; }
 
-        public CityPopulationChangeEvent(string cityName, int oldPopulation, int newPopulation)
+        public CityPopulationChangeEvent(string fileName, string cityName, int oldPopulation, int newPopulation)
         {
+            FileName = fileName;
             CityName = cityName;
             OldPopulation = oldPopulation;
             NewPopulation = newPopulation;

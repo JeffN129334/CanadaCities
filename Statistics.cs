@@ -15,6 +15,12 @@ namespace CanadaCities
         public Dictionary<string, List<CityInfo>> CityCatalogue { get; set; }
         public Dictionary<string, ProvinceInfo> ProvinceCatalogue { get; set; }
 
+        // Define event handler delegate for population changing event
+        public delegate void PopulationChangingHandler(object sender, CityPopulationChangeEvent e);
+
+        // Define PopulationChanging event based on the delegate
+        public event PopulationChangingHandler PopulationChanging;
+
         /*
           * Method Name: Constructor
           * Purpose: Calls upon the DataModeler to populate the local dictionaries with information from the file
@@ -429,6 +435,44 @@ namespace CanadaCities
             else {
                 throw new Exception($"City {cityName} not found!");
             }
+        }
+
+        /*
+          * Method Name:        UpdateCityPopulation
+          * Purpose:            Updates the population of a city in the city catalogue and raises a population-changing event
+          * Accepts:            The file name of the data file, the name of the city to update, and the new population value
+          * Returns:            Void
+          */
+        public void UpdateCityPopulation(string fileName, string cityName, int newPopulation)
+        {
+            //Find the city in the catalogue
+            var city = CityCatalogue.Values.SelectMany(cities => cities)
+                                           .FirstOrDefault(c => c.CityName.Equals(cityName, StringComparison.OrdinalIgnoreCase));
+
+            if (city != null)
+            {
+                int oldPopulation = Convert.ToInt32(city.Population);
+                city.Population = newPopulation.ToString();
+
+                //Raise the population changing event
+                OnCityPopulationChanging(new CityPopulationChangeEvent(fileName, cityName, oldPopulation, newPopulation));
+            }
+            else
+            {
+                Console.WriteLine($"City '{cityName}' not found.");
+            }
+        }
+
+        /*
+          * Method Name:        OnPopulationChanging
+          * Purpose:            Raises the PopulationChanging event by invoking its delegates
+          *                     If there are subscribers to the event, it notifies them about the population change
+          * Accepts:            The CityPopulationChangeEvent object containing information about the population change
+          * Returns:            Void
+          */
+        protected virtual void OnCityPopulationChanging(CityPopulationChangeEvent e)
+        {
+            PopulationChanging?.Invoke(this, e);
         }
     }
 }

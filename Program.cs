@@ -14,11 +14,6 @@
 
         public static void Main()
         {
-            //CityInfo city = new CityInfo();
-            //city.PopulationChanging += PopulationChangingEventHandler;
-            //city.CityName = "London";
-            //city.Population = "50000";
-
             try
             {
                 DisplayMenuHeader();
@@ -32,6 +27,7 @@
                 int choice = GetValidChoice();
 
                 Statistics stats = InitializeStatistics(choice);
+                stats.PopulationChanging += PopulationChangingEventHandler;
                 Console.Clear();
 
                 bool exit = false;
@@ -80,6 +76,9 @@
                             stats.RankProvincesByCities();
                             break;
                         case 12:
+                            UpdateCityPopulation(stats);
+                            break;
+                        case 13:
                             exit = true;
                             break;
                         default:
@@ -146,7 +145,8 @@
             Console.WriteLine("\t9. Get Capital");
             Console.WriteLine("\t10. Rank Provinces By Population");
             Console.WriteLine("\t11. Rank Provinces By Cities");
-            Console.WriteLine("\t12. Exit");
+            Console.WriteLine("\t12. Update City Population");
+            Console.WriteLine("\t13. Exit");
 
             Console.Write("\nEnter your choice: ");
         }
@@ -157,9 +157,48 @@
             return Console.ReadLine() ?? "";
         }
 
+        private static void UpdateCityPopulation(Statistics stats)
+        {
+            Console.WriteLine("\nUpdating city's population...");
+            string fileName = null;
+            string fileExt;
+            string cityName;
+            int newPopulation;
+
+            Console.Write("Enter the file extension: ");
+            fileExt = Console.ReadLine()!;
+
+            Console.Write("Enter the city name: ");
+            cityName = Console.ReadLine()!;
+
+            Console.Write("Enter the new population: ");
+            while (!int.TryParse(Console.ReadLine(), out newPopulation))
+            {
+                Console.WriteLine("Invalid population. Please enter a valid number.");
+                Console.Write("Enter the new population: ");
+            }
+
+            switch(fileExt)
+            {
+                case "XML" or "xml":
+                    fileName = XmlFilePath;
+                    break;
+                case "JSON" or "json":
+                    fileName = JsonFilePath;
+                    break;
+                case "CSV" or "csv":
+                    fileName = CsvFilePath;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid choice.");
+            }
+
+            stats.UpdateCityPopulation(fileName!, cityName, newPopulation);
+        }
+
         private static void PopulationChangingEventHandler(object sender, CityPopulationChangeEvent e)
         {
-            Console.WriteLine($"Population of {e.CityName} is changing from {e.OldPopulation} to {e.NewPopulation}");
+            Console.WriteLine($"\nPopulation of {e.CityName} in file {e.FileName} is changing from {e.OldPopulation} to {e.NewPopulation}.\n");
         }
     }
 }
